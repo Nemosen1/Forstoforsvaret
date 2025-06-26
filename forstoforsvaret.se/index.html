@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Förstå Försvaret</title>
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+</head>
+<body>
+    
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <header>
+        <h1>Förstå Försvaret</h1>
+        <nav>
+            <ul>
+                <li><a href="#">Hem</a></li>
+                <li><a href="#">flygvapnet</a></li>
+                <li><a href="#">Marinen</a></li>
+                <li><a href="#">Armen</a></li>
+                <li><a href="#">Civilt försvar</a></li>  
+                <li><a href="#">Om sidan</a></li>  
+            </ul>
+        </nav>
+    </header>
+
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Förstå Försvaret</h1>
+                <p>En lättförståelig guide till Sverige totalförsvar och militära kapacitet.</p>
+                <a href="#cards" class="cta">Utforska</a>
+            </div>  
+        </section>
+
+            <!-- Kort för flygvapnet -->
+        <section class="cards" id="cards">
+           <div class="card" id="flygvapnet-card">
+                <img src="images/flygvapnet_kort.jpg" alt="Flygvapnet">
+                <h3>Flygvapnet</h3>
+                <p>Utforska Sveriges flygstyrkor – från Gripen till övervakningssystem.</p>  
+                <!---->                       
+                <button onclick="showFlygplan()">Läs mer</button>
+            </div>
+
+            <!-- Kort för marinen -->
+           <div class="card" id="marinen-card"> 
+                <img src="images/marinen_kort.jpg" alt="Marinen">
+                <h3>Marinen</h3>
+                <p>Ubåtar, korvetter och minröjning – en avgörande del av vårt försvar.</p>
+                <button onclick="showMarinenOverlay()">Läs mer</button>
+
+            </div>
+
+            <!-- Kort för armen -->
+            <div class="card" id="armen-card">
+                <img src="images/armen_kort.jpg" alt="försvarsmakten">
+                <h3>Armen</h3>
+                <p>Från stridsvagnar till artilleri – armén är vår främsta försvarslinje på marken.</p>
+               <button onclick="showArmenOverlay()">Läs mer</button>
+            </div>
+
+            <!-- Kort för civilt försvar -->
+              <div class="card" id="civiltforsvar-card">
+                  <img src="images/civ_kort.jpg" alt="Om krisen eller kriget kommer">
+                  <h3>Civilt försvar</h3>
+                  <p>Hur Sverige skyddar samhällsviktiga funktioner i kris och krig – från sjukvård till elförsörjning.</p>
+                  <button onclick="showCiviltOverlay()">Läs mer</button>
+              </div>
+<!-- Går att utöka med fler kort här under -->
+        </section>
+
+      <section id="forsvarskartan">
+  <h2 style="text-align:center; color:#64ffda;">Försvarskartan</h2>
+  <p style="text-align:center; color:#ccc;">Klicka på markörerna för att lära dig mer om Sveriges försvar.</p>
+  <div id="map"></div>
+</section>
+
+    </main>
+
+
+<!-- Här är skelettet för tre overlayskort
+ 
+    <div id="XXX-overlay" class="overlay hidden">
+  <div class="overlay-content">
+    <span class="close-btn" onclick="closeXXXOverlay()">&times;</span>
+    <div class="cards">
+      <div class="card">
+        <img src="images/placeholder1.jpg" alt="Titel 1">
+        <h3>Titel 1</h3>
+        <p>Beskrivande text för det första objektet.</p>
+      </div>
+      <div class="card">
+        <img src="images/placeholder2.jpg" alt="Titel 2">
+        <h3>Titel 2</h3>
+        <p>Beskrivande text för det andra objektet.</p>
+      </div>
+      <div class="card">
+        <img src="images/placeholder3.jpg" alt="Titel 3">
+        <h3>Titel 3</h3>
+        <p>Beskrivande text för det tredje objektet.</p>
+      </div>
+    </div>
+  </div>
+</div>
+-->
+
+
+
+
+
+            <!-- Overlay för Flygplan -->
+    <div id="flyg-overlay" class="overlay hidden">
+                <div class="overlay-content">
+      <span class="close-btn" onclick="closeFlygOverlay()">&times;</span>
+      <div class="cards">
+        <div class="card">
+          <img src="images/jas39e_fix.jpg" alt="JAS 39 Gripen E">
+          <h3>JAS 39 Gripen E</h3>
+          <p>Jaktplanet som är ryggraden i det svenska flygvapnet.</p>
+          <button class="cta-card-button" onclick="showJasOverlay()">
+
+            <!--Denna gör pilen på jas kortet-->
+            Se fakta <span class="arrow">→</span></button>
+        </div>
+
+
+        <div class="card">
+          <img src="images/tp84_fix.jpg" alt="TP 84 Hercules">
+          <h3>TP 84 Hercules</h3>
+          <p>Transportflygplan med viktig roll vid insatser och räddning.</p>
+        </div>
+
+        <div class="card">
+          <img src="images/globaleye_fix.jpg" alt="GlobalEye">
+          <h3>GlobalEye</h3>
+          <p>Radar- och spaningsflyg som ger överlägsen situationsbild.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+    
+  <!-- Overlay för armen -->
+  <div id="armen-overlay" class="overlay hidden">
+          <div class="overlay-content">
+    <span class="close-btn" onclick="closeArmenOverlay()">&times;</span>
+    <div class="cards">
+      <div class="card">
+        <img src="images/strv122.jpg" alt="Stridsvagn 122">
+        <h3>Stridsvagn 122</h3>
+        <p>Sveriges mest kraftfulla pansarvagn, byggd på Leopard 2 och anpassad för nordiska förhållanden.</p>
+      </div>
+      <div class="card">
+        <img src="images/archer.jpg" alt="Archer artillerisystem">
+        <h3>Archer</h3>
+        <p>Ett högteknologiskt artillerisystem med extrem precision och rörlighet, redo att verka snabbt.</p>
+      </div>
+      <div class="card">
+        <img src="images/pbv302.jpg" alt="Pansarbandvagn 302">
+        <h3>Pansarbandvagn (Pbv) 302</h3>
+        <p>Ett pålitligt trupptransportfordon som har varit en ryggrad i Armén under flera decennier.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Overlay för marinen-->
+  <div id="marinen-overlay" class="overlay hidden">
+  <div class="overlay-content">
+    <span class="close-btn" onclick="closeMarinenOverlay()">&times;</span>
+    <div class="cards">
+      <div class="card">
+        <img src="images/gotland.jpg" alt="Titel 1">
+        <h3>Ubåt Gotland</h3>
+        <p>En avancerad ubåt som kan operera ljudlöst under lång tid – ett osynligt hot under ytan.</p>
+      </div>
+      <div class="card">
+        <img src="images/visby.jpg" alt="Titel 2">
+        <h3>HMS Karlstad (K35)</h3>
+        <p>En smygdesignad korvett byggd i kolfiber – snabb, dödlig och svår att upptäcka på radar.</p>
+      </div>
+      <div class="card">
+        <img src="images/minröjning.jpg" alt="Titel 3">
+        <h3>Minröjningsfartyg Koster</h3>
+        <p>Specialfartyg som säkrar havsleder genom att lokalisera och oskadliggöra sjöminor.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Overlay för civilt försvar-->
+
+<div id="civilt-overlay" class="overlay hidden">
+  <div class="overlay-content">
+    <span class="close-btn" onclick="closeCiviltOverlay()">&times;</span>
+    <div class="cards">
+      <div class="card">
+        <img src="images/sjukvard.jpg" alt="militär och sjukvårdare">
+        <h3>Civilt försvar</h3>
+        <p>Regioner och civila aktörer planerar för att klara stora olyckor och krigssituationer.</p>
+      </div>
+      <div class="card">
+        <img src="images/skyddsrum.jpg" alt="skyddsrum skylt">
+        <h3>skyddsrum</h3>
+        <p>Skyddsrum finns runtom i Sverige som en del av beredskapen mot väpnat angrepp.</p>
+      </div>
+      <div class="card">
+        <img src="images/msb.jpg" alt="Titel 3">
+        <h3>MSB och samhällets beredskap</h3>
+        <p>Myndigheten för samhällsskydd och beredskap leder och samordnar det civila försvaret.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!--Här är koden för när man klickar in-->
+<div id="jas-overlay" class="overlay hidden">
+  <div class="overlay-content">
+    <span class="close-btn" onclick="closeJasOverlay()">&times;</span>
+
+    <div class="jas-header">
+      <h2>JAS 39 Gripen E</h2>
+      <p>Sveriges mest avancerade stridsflygplan – byggt för snabbrörlighet, modern elektronik och överlägsen situationsbild.</p>
+    </div>
+<!-- 🖼️ Bilder först -->
+  <div class="jas-gallery">
+    <img src="images/jas_detail.jpg" class="jas-image-full" onclick="openLightbox('images/jas_detail.jpg')">
+<img src="images/jas_detail2.jpg" class="jas-image-full" onclick="openLightbox('images/jas_detail2.jpg')">
+<img src="images/jas_detail3.jpg" class="jas-image-full" onclick="openLightbox('images/jas_detail3.jpg')">
+  </div>
+
+  <!-- 📊 Fakta efter bilderna -->
+  <div class="info-grid">
+    <div class="fact"><h3>Maxhastighet</h3><p>Mach 2 (2 470 km/h)</p></div>
+    <div class="fact"><h3>Räckvidd</h3><p>~4 000 km med extern tank</p></div>
+    <div class="fact"><h3>Beväpning</h3><p>IR-missiler, radarstyrda robotar, kanon, bomber</p></div>
+    <div class="fact"><h3>Roll</h3><p>Jakt, attack, spaning – multirole</p></div>
+  </div>
+      </div>
+    </div>
+
+    <div class="back-btn">
+      <button onclick="closeJasOverlay()">Tillbaka</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+    <footer>
+        <p>&copy; 2025 Förstå Försvaret. En hemsida av Oskar Evertsson</p>
+    </footer>
+
+
+<div id="lightbox" onclick="closeLightbox(event)">
+  <span id="lightbox-close" onclick="closeLightbox(event)">&times;</span>
+  <span id="lightbox-prev" onclick="prevImage(event)">&#10094;</span>
+  <img id="lightbox-img" src="" alt="Förhandsvisning">
+  <span id="lightbox-next" onclick="nextImage(event)">&#10095;</span>
+</div>
+    <script src="js/script.js"></script>
+</body>
+</html>
